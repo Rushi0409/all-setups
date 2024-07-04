@@ -1,0 +1,13 @@
+#! /bin/bash
+echo "enter tomcat version"
+read version
+amazon-linux-extras install java-openjdk11 -y
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v$version/bin/apache-tomcat-$version.tar.gz
+tar -zxvf apache-tomcat-$version.tar.gz
+sed -i '56  a\<role rolename="manager-gui"/>' apache-tomcat-$version/conf/tomcat-users.xml
+sed -i '57  a\<role rolename="manager-script"/>' apache-tomcat-$version/conf/tomcat-users.xml
+sed -i '58  a\<user username="tomcat" password="raham123" roles="manager-gui, manager-script"/>' apache-tomcat-$version/conf/tomcat-users.xml
+
+sed -i '21d' apache-tomcat-$version/webapps/manager/META-INF/context.xml
+sed -i '22d'  apache-tomcat-$version/webapps/manager/META-INF/context.xml
+sh apache-tomcat-$version/bin/startup.sh
